@@ -669,7 +669,10 @@ int main( int argc, char **argv )
 		Q_strcat( commandLine, sizeof( commandLine ), " " );
 	}
 
-	Com_Init( commandLine );
+	printf("########## Hello World\n"); // Prints to console.
+	Com_Printf("########## Hello World\n"); // Prints to in-game console.
+
+	Com_Init(commandLine);
 	NET_Init( );
 
 	CON_Init( );
@@ -680,6 +683,8 @@ int main( int argc, char **argv )
 	signal( SIGTERM, Sys_SigHandler );
 	signal( SIGINT, Sys_SigHandler );
 
+	printf("########## Hello World\n");
+	Com_Printf("########## Hello World\n");
 	while( 1 )
 	{
 		IN_Frame( );
