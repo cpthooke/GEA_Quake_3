@@ -199,7 +199,7 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutDir)qagamex86.dll C:\Users\Steven\AppData\Roaming\openArena\baseoa</Command>
+      <Command>copy $(OutDir)qagamex86.dll C:\Users\user\AppData\Roaming\openArena\baseoa</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug TA|x64'">
