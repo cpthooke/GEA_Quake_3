@@ -649,11 +649,16 @@ gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir) {
 
 	bolt = G_Spawn();
 	bolt->classname = "rocket";
-	bolt->nextthink = level.time + 15000;
+	if (self->flags & FL_ROCKETBOUNCE)
+		bolt->nextthink = level.time + 2500;
+	else
+		bolt->nextthink = level.time + 10000;
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
 	bolt->s.weapon = WP_ROCKET_LAUNCHER;
+	if (self->flags & FL_ROCKETBOUNCE)
+		bolt->s.eFlags = EF_BOUNCE;
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
 	bolt->damage = 100;
@@ -667,7 +672,7 @@ gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
 	VectorCopy( start, bolt->s.pos.trBase );
-	VectorScale( dir, 50, bolt->s.pos.trDelta );
+	VectorScale( dir, 500, bolt->s.pos.trDelta ); // Rocket speed
 	Com_Printf("Shots fired");
 	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
 	VectorCopy (start, bolt->r.currentOrigin);

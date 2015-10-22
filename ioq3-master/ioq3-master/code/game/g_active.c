@@ -837,9 +837,10 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	else
 #endif
-	if ( client->ps.powerups[PW_HASTE] ) {
-		client->ps.speed *= 1.3;
-	}
+	// if ( client->ps.powerups[PW_HASTE] ) {
+		if (qtrue) { // Permanent haste
+			client->ps.speed *= 1.3;
+		}
 
 	// Let go of the hook if we aren't firing
 	if ( client->ps.weapon == WP_GRAPPLING_HOOK &&
