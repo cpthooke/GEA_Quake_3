@@ -977,7 +977,28 @@ static void Cmd_Tell_f( gentity_t *ent ) {
 	}
 }
 
+/*
+=================
+Cmd_Cloak_f
+=================
+*/
+void Cmd_Cloak_f(gentity_t *ent){
+	char *msg; // Message to player
 
+	ent->flags ^= FL_CLOAK;
+
+	if(!(ent->flags & FL_CLOAK)){
+		msg = "Cloaking OFF\n";
+		ent->client->ps.powerups[PW_INVIS] = level.time; // Removes invisibilty from player.
+	}
+	else {
+		msg = "Cloaking ON\n";
+		ent->client->ps.powerups[PW_INVIS] = level.time + 1000000000; // Gives player invisibility.
+	}
+
+	trap_SendServerCommand(ent-g_entities, va("print \"%s\"", msg));
+
+}
 #ifdef MISSIONPACK
 static void G_VoiceTo( gentity_t *ent, gentity_t *other, int mode, const char *id, qboolean voiceonly ) {
 	int color;
