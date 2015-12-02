@@ -1781,8 +1781,10 @@ void ClientCommand( int clientNum ) {
 		Cmd_TeamVote_f (ent);
 	else if (Q_stricmp (cmd, "gc") == 0)
 		Cmd_GameCommand_f( ent );
-	else if (Q_stricmp (cmd, "setviewpos") == 0)
-		Cmd_SetViewpos_f( ent );
+	else if (Q_stricmp(cmd, "setviewpos") == 0)
+		Cmd_SetViewpos_f(ent);
+	else if (Q_stricmp(cmd, "cloak") == 0)
+		Cmd_Cloak_f(ent);
 	else if (Q_stricmp(cmd, "rbounce") == 0)
 		Cmd_RBounce_f(ent);
 	else if (Q_stricmp (cmd, "stats") == 0)

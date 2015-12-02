@@ -96,6 +96,11 @@ void TossClientItems( gentity_t *self ) {
 		}
 	}
 
+	if (self->flags & FL_CLOAK) {
+		// remove the invisible powerup if the player is cloaked.
+		self->client->ps.powerups[PW_INVIS] = level.time;
+	}
+
 	if ( weapon > WP_MACHINEGUN && weapon != WP_GRAPPLING_HOOK && 
 		self->client->ps.ammo[ weapon ] ) {
 		// find the item type for this weapon

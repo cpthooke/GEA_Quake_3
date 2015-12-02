@@ -391,7 +391,7 @@ ClientTimerActions
 Actions that happen once a second
 ==================
 */
-void ClientTimerActions( gentity_t *ent, int msec ) {
+void ClientTimerActions(gentity_t *ent, int msec) {
 	gclient_t	*client;
 #ifdef MISSIONPACK
 	int			maxHealth;
@@ -400,100 +400,113 @@ void ClientTimerActions( gentity_t *ent, int msec ) {
 	client = ent->client;
 	client->timeResidual += msec;
 
-	while ( client->timeResidual >= 1000 ) {
+	while (client->timeResidual >= 1000) {
 		client->timeResidual -= 1000;
 
 		// regenerate
 #ifdef MISSIONPACK
-		if( bg_itemlist[client->ps.stats[STAT_PERSISTANT_POWERUP]].giTag == PW_GUARD ) {
+		if (bg_itemlist[client->ps.stats[STAT_PERSISTANT_POWERUP]].giTag == PW_GUARD) {
 			maxHealth = client->ps.stats[STAT_MAX_HEALTH] / 2;
 		}
-		else if ( client->ps.powerups[PW_REGEN] ) {
+		else if (client->ps.powerups[PW_REGEN]) {
 			maxHealth = client->ps.stats[STAT_MAX_HEALTH];
 		}
 		else {
 			maxHealth = 0;
 		}
-		if( maxHealth ) {
-			if ( ent->health < maxHealth ) {
+		if (maxHealth) {
+			if (ent->health < maxHealth) {
 				ent->health += 15;
-				if ( ent->health > maxHealth * 1.1 ) {
+				if (ent->health > maxHealth * 1.1) {
 					ent->health = maxHealth * 1.1;
 				}
-				G_AddEvent( ent, EV_POWERUP_REGEN, 0 );
-			} else if ( ent->health < maxHealth * 2) {
+				G_AddEvent(ent, EV_POWERUP_REGEN, 0);
+			}
+			else if (ent->health < maxHealth * 2) {
 				ent->health += 5;
-				if ( ent->health > maxHealth * 2 ) {
+				if (ent->health > maxHealth * 2) {
 					ent->health = maxHealth * 2;
 				}
-				G_AddEvent( ent, EV_POWERUP_REGEN, 0 );
+				G_AddEvent(ent, EV_POWERUP_REGEN, 0);
 			}
 #else
-		if ( client->ps.powerups[PW_REGEN] ) {
-			if ( ent->health < client->ps.stats[STAT_MAX_HEALTH]) {
+		if (client->ps.powerups[PW_REGEN]) {
+			if (ent->health < client->ps.stats[STAT_MAX_HEALTH]) {
 				ent->health += 15;
-				if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.1 ) {
+				if (ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.1) {
 					ent->health = client->ps.stats[STAT_MAX_HEALTH] * 1.1;
 				}
-				G_AddEvent( ent, EV_POWERUP_REGEN, 0 );
-			} else if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] * 2) {
+				G_AddEvent(ent, EV_POWERUP_REGEN, 0);
+			}
+			else if (ent->health < client->ps.stats[STAT_MAX_HEALTH] * 2) {
 				ent->health += 5;
-				if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 2 ) {
+				if (ent->health > client->ps.stats[STAT_MAX_HEALTH] * 2) {
 					ent->health = client->ps.stats[STAT_MAX_HEALTH] * 2;
 				}
-				G_AddEvent( ent, EV_POWERUP_REGEN, 0 );
+				G_AddEvent(ent, EV_POWERUP_REGEN, 0);
 			}
 #endif
-		} else {
-			// count down health when over max
-			if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] ) {
+		}
+		else {
+			if (!(ent->flags & FL_CLOAK)) {
+				// count down health when over max
+				if (ent->health > client->ps.stats[STAT_MAX_HEALTH]) {
+					ent->health--;
+				}
+			}
+			else {
+				// count down health when cloaked.
 				ent->health--;
+				if (ent->health<11) {
+					ent->flags ^= FL_CLOAK;
+					ent->client->ps.powerups[PW_INVIS] = level.time;
+				}
+			}
+
+			// count down armor when over max
+			if (client->ps.stats[STAT_ARMOR] > client->ps.stats[STAT_MAX_HEALTH]) {
+				client->ps.stats[STAT_ARMOR]--;
 			}
 		}
-
-		// count down armor when over max
-		if ( client->ps.stats[STAT_ARMOR] > client->ps.stats[STAT_MAX_HEALTH] ) {
-			client->ps.stats[STAT_ARMOR]--;
-		}
-	}
 #ifdef MISSIONPACK
-	if( bg_itemlist[client->ps.stats[STAT_PERSISTANT_POWERUP]].giTag == PW_AMMOREGEN ) {
-		int w, max, inc, t, i;
-    int weapList[]={WP_MACHINEGUN,WP_SHOTGUN,WP_GRENADE_LAUNCHER,WP_ROCKET_LAUNCHER,WP_LIGHTNING,WP_RAILGUN,WP_PLASMAGUN,WP_BFG,WP_NAILGUN,WP_PROX_LAUNCHER,WP_CHAINGUN};
-    int weapCount = ARRAY_LEN( weapList );
-		//
-    for (i = 0; i < weapCount; i++) {
-		  w = weapList[i];
+		if (bg_itemlist[client->ps.stats[STAT_PERSISTANT_POWERUP]].giTag == PW_AMMOREGEN) {
+			int w, max, inc, t, i;
+			int weapList[] = { WP_MACHINEGUN,WP_SHOTGUN,WP_GRENADE_LAUNCHER,WP_ROCKET_LAUNCHER,WP_LIGHTNING,WP_RAILGUN,WP_PLASMAGUN,WP_BFG,WP_NAILGUN,WP_PROX_LAUNCHER,WP_CHAINGUN };
+			int weapCount = ARRAY_LEN(weapList);
+			//
+			for (i = 0; i < weapCount; i++) {
+				w = weapList[i];
 
-		  switch(w) {
-			  case WP_MACHINEGUN: max = 50; inc = 4; t = 1000; break;
-			  case WP_SHOTGUN: max = 10; inc = 1; t = 1500; break;
-			  case WP_GRENADE_LAUNCHER: max = 10; inc = 1; t = 2000; break;
-			  case WP_ROCKET_LAUNCHER: max = 10; inc = 1; t = 1750; break;
-			  case WP_LIGHTNING: max = 50; inc = 5; t = 1500; break;
-			  case WP_RAILGUN: max = 10; inc = 1; t = 1750; break;
-			  case WP_PLASMAGUN: max = 50; inc = 5; t = 1500; break;
-			  case WP_BFG: max = 10; inc = 1; t = 4000; break;
-			  case WP_NAILGUN: max = 10; inc = 1; t = 1250; break;
-			  case WP_PROX_LAUNCHER: max = 5; inc = 1; t = 2000; break;
-			  case WP_CHAINGUN: max = 100; inc = 5; t = 1000; break;
-			  default: max = 0; inc = 0; t = 1000; break;
-		  }
-		  client->ammoTimes[w] += msec;
-		  if ( client->ps.ammo[w] >= max ) {
-			  client->ammoTimes[w] = 0;
-		  }
-		  if ( client->ammoTimes[w] >= t ) {
-			  while ( client->ammoTimes[w] >= t )
-				  client->ammoTimes[w] -= t;
-			  client->ps.ammo[w] += inc;
-			  if ( client->ps.ammo[w] > max ) {
-				  client->ps.ammo[w] = max;
-			  }
-		  }
-    }
-	}
+				switch (w) {
+				case WP_MACHINEGUN: max = 50; inc = 4; t = 1000; break;
+				case WP_SHOTGUN: max = 10; inc = 1; t = 1500; break;
+				case WP_GRENADE_LAUNCHER: max = 10; inc = 1; t = 2000; break;
+				case WP_ROCKET_LAUNCHER: max = 10; inc = 1; t = 1750; break;
+				case WP_LIGHTNING: max = 50; inc = 5; t = 1500; break;
+				case WP_RAILGUN: max = 10; inc = 1; t = 1750; break;
+				case WP_PLASMAGUN: max = 50; inc = 5; t = 1500; break;
+				case WP_BFG: max = 10; inc = 1; t = 4000; break;
+				case WP_NAILGUN: max = 10; inc = 1; t = 1250; break;
+				case WP_PROX_LAUNCHER: max = 5; inc = 1; t = 2000; break;
+				case WP_CHAINGUN: max = 100; inc = 5; t = 1000; break;
+				default: max = 0; inc = 0; t = 1000; break;
+				}
+				client->ammoTimes[w] += msec;
+				if (client->ps.ammo[w] >= max) {
+					client->ammoTimes[w] = 0;
+				}
+				if (client->ammoTimes[w] >= t) {
+					while (client->ammoTimes[w] >= t)
+						client->ammoTimes[w] -= t;
+					client->ps.ammo[w] += inc;
+					if (client->ps.ammo[w] > max) {
+						client->ps.ammo[w] = max;
+					}
+				}
+			}
+		}
 #endif
+	}
 }
 
 /*
@@ -501,10 +514,10 @@ void ClientTimerActions( gentity_t *ent, int msec ) {
 ClientIntermissionThink
 ====================
 */
+
 void ClientIntermissionThink( gclient_t *client ) {
 	client->ps.eFlags &= ~EF_TALK;
 	client->ps.eFlags &= ~EF_FIRING;
-
 	// the level will exit when everyone wants to or after timeouts
 
 	// swap and latch button actions
