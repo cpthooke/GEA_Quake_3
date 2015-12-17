@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
+#include "../qcommon/altlog.h" // GEA
 
 #ifndef DEDICATED
 #ifdef USE_LOCAL_HEADERS
@@ -611,6 +612,7 @@ int main( int argc, char **argv )
 	int   i;
 	char  commandLine[ MAX_STRING_CHARS ] = { 0 };
 
+
 #ifndef DEDICATED
 	// SDL version check
 
@@ -676,6 +678,13 @@ int main( int argc, char **argv )
 	NET_Init( );
 
 	CON_Init( );
+
+	//########## GEA ##########
+
+	logLevel = DEBUG;
+	testLog(logLevel, "Logging Success %d", 1);
+
+	//########## GEA ##########
 
 	signal( SIGILL, Sys_SigHandler );
 	signal( SIGFPE, Sys_SigHandler );

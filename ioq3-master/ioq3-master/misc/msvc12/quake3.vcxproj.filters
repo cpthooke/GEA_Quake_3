@@ -684,6 +684,9 @@
     <ClCompile Include="..\..\code\renderergl1\tr_world.c">
       <Filter>renderergl1</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\code\qcommon\altlog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\code\game\bg_public.h">
@@ -844,6 +847,9 @@
     </ClInclude>
     <ClInclude Include="..\..\code\renderercommon\tr_types.h">
       <Filter>renderercommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\qcommon\altlog.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
