@@ -10,36 +10,26 @@
 //	struct altLogLevel *next;
 //} altLogLevel;
 
-//int timeStamp(void) // http://stackoverflow.com/questions/7411301/how-to-introduce-date-and-time-in-log-file
-//{
-//	char buffer[20];
-//	struct tm *stm;
-//
-//	time_t current = time(0);
-//	stm = gmtime(&current);
-//	
-//	strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", stm);
-//	fprintf("%s %s\n", buffer); // , "Event occurred now");
-//
-//	return current;
-//}
-
-void testLog(level logLevel, const char* log)
+void testLog(level logLevel, char* log, ...)
 {
 	FILE *output = fopen("altlog.txt", "a");
 
 	va_list args; // Makes it variadic.
 	va_start(args, log); // Starts variadic arguments.
 
-	time_t now;
-	time(&now);
-	//int a = ctime(&now);
+	time_t ltime; // Calendar time - http://cc.byexamples.com/2007/01/26/create-your-own-time-stamp/
+	ltime = time(NULL); // Get current time
+	char* timeStamp = ("%s", asctime(localtime(&ltime)));
 
+	if (logLevel < 0 || logLevel > 2)
+	{
+		fprintf(output, "LOGGING SYSTEM OUT OF SCOPE\n");
+	}
 
 	if (logLevel == DEBUG)
 	{
+		vfprintf(output, timeStamp, args);
 		vfprintf(output, log, args);
-		vfprintf(output, "%t", ctime(&now));
 		fprintf(output, "\n");
 	}
 
