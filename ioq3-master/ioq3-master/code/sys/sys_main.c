@@ -682,7 +682,6 @@ int main( int argc, char **argv )
 	//########## GEA ##########
 
 	logLevel = DEBUG;
-	testLog(logLevel, "Logging Success %d", 1);
 
 	//########## GEA ##########
 
@@ -691,9 +690,7 @@ int main( int argc, char **argv )
 	signal( SIGSEGV, Sys_SigHandler );
 	signal( SIGTERM, Sys_SigHandler );
 	signal( SIGINT, Sys_SigHandler );
-
-	printf("########## Hello World\n");
-	Com_Printf("########## Hello World\n");
+	testLog(logLevel, "Logging Success");
 	while( 1 )
 	{
 		IN_Frame( );

@@ -5,7 +5,6 @@
 
 //void testLog(level logLevel, char* log);
 
-FILE *output;
-typedef enum {DEBUG, ERRORS, PERFORM} level;
+typedef enum {DEBUG = 1, ERRORS = 2, PERFORM = 3} level;
 level logLevel;
 int timeStamp(void);
