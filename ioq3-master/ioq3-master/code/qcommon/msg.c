@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #include "q_shared.h"
 #include "qcommon.h"
+#include "../qcommon/altlog.h"
 
 static huffman_t		msgHuff;
 
@@ -1168,6 +1169,8 @@ void MSG_WriteDeltaPlayerstate( msg_t *msg, struct playerState_s *from, struct p
 		from = &dummy;
 		Com_Memset (&dummy, 0, sizeof(dummy));
 	}
+
+	testLog(logLevel, "X = %f, Y = %f, Z = %f \n", from->origin[0], from->origin[1], from->origin[2]);
 
 	numFields = ARRAY_LEN( playerStateFields );
 

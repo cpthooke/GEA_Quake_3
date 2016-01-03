@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-#include "../qcommon/altlog.h" // GEA
 
 #ifndef DEDICATED
 #ifdef USE_LOCAL_HEADERS
@@ -45,6 +44,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "sys_local.h"
 #include "sys_loadlib.h"
 
+#include "../qcommon/altlog.h" // GEA
 #include "../qcommon/q_shared.h"
 #include "../qcommon/qcommon.h"
 
@@ -681,7 +681,7 @@ int main( int argc, char **argv )
 
 	//########## GEA ##########
 
-	logLevel = PERFORM;
+	logLevel = PERFORMa;
 
 	//########## GEA ##########
 

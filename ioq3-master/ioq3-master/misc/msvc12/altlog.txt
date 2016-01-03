@@ -1,4 +1,0 @@
-Sun Jan  3 17:02:49 2016
-Logging Success
-Test level: PERFORM 
-1 + 2 + 3 = 6

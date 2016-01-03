@@ -9,6 +9,7 @@
 //	level logLevel;
 //	struct altLogLevel *next;
 //} altLogLevel;
+
 int a = 0; // Variables for testing.
 int b = 0;
 int c = 0;
@@ -50,13 +51,13 @@ void testLog(level logLevel, char* log, ...)
 	if (logLevel == ERRORS)
 	{
 		vfprintf(output, log, args);
-		fprintf(output, "\nTest level: ERRORS \n %d %d %d", a, b, c);
+		fprintf(output, "\nTest level: ERRORS \n %d %d %d\n", a, b, c);
 	}
 
 	if (logLevel == PERFORM)
 	{
 		vfprintf(output, log, args);
-		fprintf(output, "\nTest level: PERFORM \n%d + %d + %d = %d", a, b, c, d);
+		fprintf(output, "\nTest level: PERFORM \n%d + %d + %d = %d\n", a, b, c, d);
 	}
 
 	va_end(args);
