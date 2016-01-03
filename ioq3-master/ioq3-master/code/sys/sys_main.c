@@ -681,7 +681,7 @@ int main( int argc, char **argv )
 
 	//########## GEA ##########
 
-	logLevel = DEBUG;
+	logLevel = PERFORM;
 
 	//########## GEA ##########
 
@@ -690,7 +690,8 @@ int main( int argc, char **argv )
 	signal( SIGSEGV, Sys_SigHandler );
 	signal( SIGTERM, Sys_SigHandler );
 	signal( SIGINT, Sys_SigHandler );
-	testLog(logLevel, "Logging Success\n");
+	testLog(logLevel, "Logging Success");
+	
 	while( 1 )
 	{
 		IN_Frame( );

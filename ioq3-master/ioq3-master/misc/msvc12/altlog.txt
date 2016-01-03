@@ -1,7 +1,4 @@
-Fri Jan  1 19:13:44 2016
-
-Fri Jan  1 19:16:30 2016
+Sun Jan  3 17:02:49 2016
 Logging Success
-
-Logging Success
-
+Test level: PERFORM 
+1 + 2 + 3 = 6

@@ -12,5 +12,5 @@ typedef enum
 } level;
 
 level logLevel;
+void testSum();
 void testLog(level logLevel, char* log);
-int timeStamp(void);

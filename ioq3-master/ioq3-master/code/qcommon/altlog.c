@@ -9,11 +9,24 @@
 //	level logLevel;
 //	struct altLogLevel *next;
 //} altLogLevel;
+int a = 0; // Variables for testing.
+int b = 0;
+int c = 0;
+int d = 0;
+
+void testSum() // Test method.
+{
+	a = 1;
+	b = 2;
+
+	c = 3;
+	d = a + b + c;
+}
 
 void testLog(level logLevel, char* log, ...)
 {
 	FILE *output = fopen("altlog.txt", "a");
-
+	testSum(); // For testing.
 	va_list args; // Makes it variadic.
 	va_start(args, log); // Starts variadic arguments.
 
@@ -26,11 +39,24 @@ void testLog(level logLevel, char* log, ...)
 		fprintf(output, "LOGGING SYSTEM OUT OF SCOPE\n");
 	}
 
+	vfprintf(output, timeStamp, args);
+	
 	if (logLevel == DEBUG)
 	{
-		vfprintf(output, timeStamp, args);
 		vfprintf(output, log, args);
-		fprintf(output, "\n");
+		fprintf(output, "\nTest level: DEBUG \n");
+	}
+
+	if (logLevel == ERRORS)
+	{
+		vfprintf(output, log, args);
+		fprintf(output, "\nTest level: ERRORS \n %d %d %d", a, b, c);
+	}
+
+	if (logLevel == PERFORM)
+	{
+		vfprintf(output, log, args);
+		fprintf(output, "\nTest level: PERFORM \n%d + %d + %d = %d", a, b, c, d);
 	}
 
 	va_end(args);
