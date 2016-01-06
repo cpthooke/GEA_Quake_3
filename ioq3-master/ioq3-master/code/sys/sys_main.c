@@ -681,7 +681,7 @@ int main( int argc, char **argv )
 
 	//########## GEA ##########
 
-	logLevel = PERFORMa;
+	logLevel = PERFORM;
 
 	//########## GEA ##########
 

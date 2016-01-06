@@ -1169,9 +1169,11 @@ void MSG_WriteDeltaPlayerstate( msg_t *msg, struct playerState_s *from, struct p
 		from = &dummy;
 		Com_Memset (&dummy, 0, sizeof(dummy));
 	}
-
-	testLog(logLevel, "X = %f, Y = %f, Z = %f \n", from->origin[0], from->origin[1], from->origin[2]);
-
+	//////////////////////GEA//////////////////////
+	if (logLevel == PERFORM)
+	{
+		testLog(logLevel, "num=%d\nX=%f\nY=%f\nZ=%f\n", from->clientNum, from->origin[0], from->origin[1], from->origin[2]);
+	}
 	numFields = ARRAY_LEN( playerStateFields );
 
 	lc = 0;

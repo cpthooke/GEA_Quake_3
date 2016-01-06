@@ -35,7 +35,7 @@ void testLog(level logLevel, char* log, ...)
 	ltime = time(NULL); // Get current time
 	char* timeStamp = ("%s", asctime(localtime(&ltime)));
 
-	if (logLevel < 0 || logLevel > 2)
+	if (logLevel < 0 || logLevel > 3)
 	{
 		fprintf(output, "LOGGING SYSTEM OUT OF SCOPE\n");
 	}
@@ -57,7 +57,7 @@ void testLog(level logLevel, char* log, ...)
 	if (logLevel == PERFORM)
 	{
 		vfprintf(output, log, args);
-		fprintf(output, "\nTest level: PERFORM \n%d + %d + %d = %d\n", a, b, c, d);
+		//fprintf(output, "\nTest level: PERFORM \n%d + %d + %d = %d\n", a, b, c, d);
 	}
 
 	va_end(args);
